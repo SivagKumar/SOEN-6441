@@ -151,6 +151,7 @@ def main():
     try:
         radiusOfCircle = float(inputValue)
         # length of the segment = 2R(1- cos(alpha/2))
+        print "The alphavalue is", alphaValue(9)
         alpha = alphaValue(9)
         lengthOfSegment = 2 * radiusOfCircle * (1.0 - Cosine(alpha/2))
         print ("The length of the segment is"), lengthOfSegment
