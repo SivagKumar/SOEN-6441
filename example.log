@@ -1,0 +1,4 @@
+DEBUG:root:This message should appear on the console
+INFO:root:So should this
+WARNING:root:And this, too
+DEBUG:root:None
