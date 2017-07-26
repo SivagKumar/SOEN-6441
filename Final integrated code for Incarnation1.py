@@ -86,10 +86,7 @@ def taylorSeriesForSine(radians, terms):
             seriesValue = seriesValue * (value / factorialOf((2*terms)+1))
         else:
             # negative value
-            factorial=factorialOf((2*terms)+1)
-            float(factorial)
-            value=value/factorial
-            seriesValue = seriesValue * -1 * value
+            seriesValue = seriesValue * -1 * (value / factorialOf((2*terms)+1))
     return seriesValue + taylorSeriesForSine(radians, terms-1)
 
 def Sine(radians):
