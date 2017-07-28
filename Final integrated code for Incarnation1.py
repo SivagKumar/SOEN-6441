@@ -1,12 +1,10 @@
-
-
 from pip._vendor.distlib.compat import raw_input
 
 
 '''
 findPIByNilakantaInfiniteSeries
 
-This function finds the PI value using the famous infinite series
+This function finds the pi value using the famous infinite series
 called Nilakantha Series. The more the number of series, more accurate
 the value is. Here the series depth is 500 to get 10 accurate decimal digits
 
@@ -14,7 +12,8 @@ The series is:
 3 + 4/(4*5*6) - 4/(4*5*6) + 4/(6*7*8) - 4/(8*9*10) + ...
 '''
 
-def findPIByNilakantaInfiniteSeries(terms):
+
+def find_pi_nilakanta_infinite_series(terms):
     # Base case
     if terms == 0:
         return 3
@@ -29,14 +28,15 @@ def findPIByNilakantaInfiniteSeries(terms):
             seriesValue = seriesValue * value
 
         # Recursive function
-        return seriesValue + findPIByNilakantaInfiniteSeries(terms - 1)
+        return seriesValue + find_pi_nilakanta_infinite_series(terms - 1)
 
 '''
-Function that returns the PI value
+Function that returns the pi value
 '''
 
-def PI():
-    return findPIByNilakantaInfiniteSeries(500)
+
+def pi():
+    return find_pi_nilakanta_infinite_series(500)
 
 
 '''
@@ -44,24 +44,25 @@ Converts degrees to radians
 radians = (degress/180) * pi
 '''
 
-def findRadians(degrees):
+
+def find_radians(degrees):
     # Find the radians for the degrees.
-    return (degrees / 180) * PI()
+    return (degrees / 180) * pi()
 
 
 '''
 Find the power of X
-
 E.g: x^4 = x*x*x*x
 '''
 
-def computePowerOf(radians, terms):
+
+def compute_power_of(radians, terms):
     # base case
     if terms == 0:
         return 1
     else:
         # Recursive function
-        return radians * computePowerOf(radians, terms-1)
+        return radians * compute_power_of(radians, terms-1)
 
 
 '''
@@ -70,13 +71,14 @@ Find the factorial of X
 E.g: 5! = 5*4*3*2*1
 '''
 
-def factorialOf(number):
+
+def factorial_of(number):
     # base case
     if number == 1 or number == 0:
         return 1
     else:
         # Recursive function
-        return number * factorialOf(number-1)
+        return number * factorial_of(number-1)
 
 
 '''
@@ -87,29 +89,32 @@ To get accurate values up to 12 digits, the infinite series is called
 for 80 times.
 '''
 
-def taylorSeriesForSine(radians, terms):
+
+def taylor_series_sine(radians, terms):
     # base case
     if terms == 0:
         return radians
     else:
         seriesValue = 1.0
-        value = computePowerOf(radians, ((2*terms)+1))
-        if terms%2 == 0:
+        value = compute_power_of(radians, ((2*terms)+1))
+        if terms % 2 == 0:
             # positive value
-            seriesValue = seriesValue * (value / factorialOf((2*terms)+1))
+            seriesValue = seriesValue * (value / factorial_of((2*terms)+1))
         else:
             # negative value
-            seriesValue = seriesValue * -1 * (value / factorialOf((2*terms)+1))
+            seriesValue = seriesValue * -1 * (value /
+                                              factorial_of((2*terms)+1))
 
     # Recursive function
-    return seriesValue + taylorSeriesForSine(radians, terms-1)
+    return seriesValue + taylor_series_sine(radians, terms-1)
 
 '''
 Function that calculates the sine value in alpha function
 '''
 
-def Sine(radians):
-    return taylorSeriesForSine(radians, 80)
+
+def sine(radians):
+    return taylor_series_sine(radians, 80)
 
 
 '''Function to find the cosine using taylor series
@@ -120,29 +125,31 @@ To get accurate values up to 12 digits, the infinite series is called for
 80 times.
 '''
 
-def taylorSeriesForCosine(radians, terms):
+
+def taylor_series_cosine(radians, terms):
     # base case
     if terms == 0:
         return 1
     else:
         seriesValue = 1
-        value = computePowerOf(radians, terms*2)
-        if terms%2 == 0:
+        value = compute_power_of(radians, terms*2)
+        if terms % 2 == 0:
             # positive value
-            seriesValue = seriesValue * (value / factorialOf(terms*2))
+            seriesValue = seriesValue * (value / factorial_of(terms*2))
         else:
             # negative value
-            seriesValue = seriesValue * -1 * (value / factorialOf(terms*2))
-    return seriesValue + taylorSeriesForCosine(radians, terms-1)
+            seriesValue = seriesValue * -1 * (value / factorial_of(terms*2))
+    return seriesValue + taylor_series_cosine(radians, terms-1)
 
 '''
 Function that calculates the cosine value for alpha/2
 '''
 
-def Cosine(degrees):
 
-    radians = findRadians(degrees)
-    return taylorSeriesForCosine(radians, 80)
+def cosine(degrees):
+
+    radians = find_radians(degrees)
+    return taylor_series_cosine(radians, 80)
 
 
 '''
@@ -150,32 +157,32 @@ Function to calculate the alpha value using Bisection method
 No.of iterations>logbase2((lowerLimit-upperLimt)/error tolerance level)
 '''
 
-def alphaValue(iterations):
+
+def alpha_value(iterations):
 
     # LowerLimit and upperLimit values are based on assumptions.
-    lowerLimit=0
-    upperLimit=PI()
-    baseValue=1
+    lowerLimit = 0
+    upperLimit = pi()
+    baseValue = 1
 
-    while(baseValue<iterations):
-        midPoint=(lowerLimit+upperLimit)/2
+    while(baseValue < iterations):
+        midPoint = (lowerLimit+upperLimit)/2
 
-        #f(x)=x-sin(x)-pi/2
-        valueofLowerlimit=lowerLimit-Sine(lowerLimit)-(PI()/2)
-        valueofmidPoint=midPoint-Sine(midPoint)-(PI()/2)
+        # f(x)=x-sin(x)-pi/2
+        valueofLowerlimit = lowerLimit-sine(lowerLimit) - (pi()/2)
+        valueofmidPoint = midPoint-sine(midPoint) - (pi()/2)
 
         # Onelimit should be in positive range and other in negative range.
-        if ((valueofLowerlimit>0 and valueofmidPoint<0)
-        or (valueofLowerlimit<0 and valueofmidPoint>0)):
+        if ((valueofLowerlimit > 0 and valueofmidPoint < 0)or
+           (valueofLowerlimit < 0 and valueofmidPoint > 0)):
 
-                upperLimit=midPoint  # Manipulating limits for next iteration
-                baseValue=baseValue+1  # Increment baseValue
+                upperLimit = midPoint  # Manipulating limits for next iteration
+                baseValue = baseValue+1
         else:
-                lowerLimit=midPoint  # Manipulating limits for next iteration
-                baseValue=baseValue+1  # Increment baseValue
+                lowerLimit = midPoint  # Manipulating limits for next iteration
+                baseValue = baseValue+1
 
     return ((lowerLimit+upperLimit)/2)
-
 
 
 def main():
@@ -183,16 +190,15 @@ def main():
     # Accepting user input.
     inputValue = raw_input("Enter the radius of the circle: ")
 
-
     try:
         radiusOfCircle = float(inputValue)
 
         # Call alpha function
-        alpha = alphaValue(35)
+        alpha = alpha_value(35)
         print ("The alphavalue is"), alpha
-        print ("cos(alpha/2) value is"), Cosine(alpha/2)
+        print ("cos(alpha/2) value is"), cosine(alpha/2)
         # length of the segment = 2R(1- cos(alpha/2))
-        lengthOfSegment = 2 * radiusOfCircle * (1.0 - Cosine(alpha/2))
+        lengthOfSegment = 2 * radiusOfCircle * (1.0 - cosine(alpha/2))
         print ("The length of the segment is"), lengthOfSegment
 
     # Handling exceptions.
